@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h4 class="modal-title">Delete Source</h4>
+    <button type="button" class="close" aria-label="Close"
+     (click)="activeModal.dismiss('Cross click')">
+    </button>
+  </div>
+    <div class="modal-body">
+        <p>
+            <strong>Are you sure you want to delete </strong>
+        </p>
+        <p>
+            All stories associated to this source will be permanently deleted.
+            <span class="text-danger">This operation can not be undone.</span>
+        </p>
+    </div>
+    <div class="modal-footer" >
+      <button class="btn btn-outline-success" (click)="activeModal.close('delete click')">Delete</button>
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Cancel click')">Cancel</button>
+    </div>
+  

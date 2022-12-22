@@ -1,0 +1,24 @@
+Search: 
+<input type="text" [ngModel]="search_text" (ngModelChange)="searching($event)">
+{{search_text}}
+<br><br>
+Add Source: <button (click)="AddStoryModal()">Add Story</button>
+<br>
+<br>
+<ul>
+  <li *ngFor="let story of newdata| paginate: { itemsPerPage: 10, currentPage: p }">
+      <a href="{{story.url}}">title: {{story.title}}</a><br>
+      Description: {{story.body_text}}<br>
+      source-{{story.source}}<br>
+      Published date - {{story.pub_date}}<br>
+      Tagged Companies - 
+      <ul *ngFor="let company of story.tagged_company[0]">
+          <li>{{company}}</li>
+      </ul>
+      <button (click)="onDeleteStory(story.id)">Delete</button>
+      <button (click)="EditStoryModal(story)">Edit Modal</button>
+      <hr>
+  </li>
+</ul>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+

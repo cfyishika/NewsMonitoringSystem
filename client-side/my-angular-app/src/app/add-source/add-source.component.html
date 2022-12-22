@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h4 class="modal-title">Modal Title</h4>
+    <button type="button" class="close" aria-label="Close"
+     (click)="activeModal.dismiss('Cross click')">
+    </button>
+  </div>
+  <form [formGroup]="myForm" (ngSubmit)="addSource(source_passed,myForm.value)">
+    <div class="modal-body">
+      <div class="container">
+        <div class="form-group">
+          <label for="name">Source Name:</label>
+          <div *ngIf="source_passed==null; then addname else editname"></div>
+          <ng-template #addname><input type="text" class="form-control" formControlName="name"/></ng-template>
+          <ng-template #editname><input type="text" class="form-control" formControlName="name" [(ngModel)]="source_passed.name"/></ng-template>
+         
+        </div>
+        <div *ngIf="sourceControl.name.touched && sourceControl.name.invalid" class="errormsg">
+        <span *ngIf="sourceControl.url.errors?.required" >!!Please enter the name</span>
+        <span *ngIf="sourceControl.name.errors?.minlength" > Name must be at least 5 characters long.</span>
+        </div>
+        <div class="form-group">
+          <label for="url">Source URL:</label>
+          <div *ngIf="source_passed==null; then addurl else editurl"></div>
+          <ng-template #addurl> <input type="url" class="form-control" formControlName="url" minlength="5"  ></ng-template>
+          <ng-template #editurl><input type="url" class="form-control" formControlName="url"  [(ngModel)]="source_passed.url" minlength="5"></ng-template>
+          
+        </div>
+        <div *ngIf="sourceControl.url.touched && sourceControl.url.invalid" class="errormsg">
+        <div *ngIf="sourceControl.url.errors?.required">!!Please provide url</div>
+        <div *ngIf="sourceControl.url.errors?.pattern" >Please provide valid url</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" >
+      <div *ngIf="source_passed==null; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock><button class="btn btn-outline-success" type="submit" [disabled]="!myForm.valid">Add Source</button></ng-template>
+          <ng-template #elseBlock><button class="btn btn-outline-success" type="submit" >Edit Source</button></ng-template>
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+  </form>
+  

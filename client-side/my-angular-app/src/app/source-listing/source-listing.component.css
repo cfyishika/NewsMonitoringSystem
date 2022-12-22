@@ -1,0 +1,8 @@
+.fetchBtn{
+    text-decoration: none;
+    border: 0.5px solid #3e3e3c;
+    padding: 2px;
+    background: #8080801f;
+    color: black;
+    margin-right: 11px;
+}

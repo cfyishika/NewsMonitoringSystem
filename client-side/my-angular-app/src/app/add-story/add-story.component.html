@@ -1,0 +1,85 @@
+<div class="modal-header">
+    <h4 class="modal-title">Modal Title</h4>
+    <button type="button" class="close" aria-label="Close"
+     (click)="activeModal.dismiss('Cross click')">
+    </button>
+  </div>
+  <form [formGroup]="myForm" (ngSubmit)="addStory(story_passed,myForm.value)">
+    <div class="modal-body">
+      <div class="container">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <div *ngIf="story_passed==null; then addtitle else editTitle"></div>
+          <ng-template #addtitle><input type="text" class="form-control"formControlName="title" /></ng-template>
+          <ng-template #editTitle><input type="text" class="form-control"formControlName="title" [(ngModel)]="story_passed.title"/></ng-template>
+        </div>
+        <div *ngIf="storyControl.title.touched && storyControl.title.invalid" class="errormsg">
+          <span *ngIf="storyControl.title.errors?.required" >!!Please enter the title</span>
+          <span *ngIf="storyControl.title.errors?.minlength" > Title must be at least 5 characters long.</span>
+          </div>
+        <div class="form-group">
+          <label for="body_text">Description:</label>
+          <div *ngIf="story_passed==null; then addDescription else editDescription"></div>
+            <ng-template #addDescription> <textarea name="body_text"  rows="4" cols="50" formControlName="body_text" class="form-control"></textarea></ng-template>
+            <ng-template #editDescription> <textarea name="body_text"  rows="4" cols="50" formControlName="body_text" class="form-control" [(ngModel)]="story_passed.body_text"></textarea></ng-template>
+        </div>
+        <div class="form-group">
+            <label for="pub_date">Published Date:</label>
+            <div *ngIf="story_passed==null; then addDate else editDate"></div>
+              <ng-template #addDate><input type="date" class="form-control" formControlName="pub_date" /></ng-template>
+              <ng-template #editDate><input type="date" class="form-control" formControlName="pub_date" [(ngModel)]="story_passed.pub_date"/></ng-template>
+          </div>
+          <div *ngIf="storyControl.pub_date.touched && storyControl.pub_date.invalid" class="errormsg">
+            <span *ngIf="storyControl.pub_date.errors?.required" >!!Please enter the Published date</span>
+            </div>
+        <div class="form-group">
+            <label for="source_name">Source:</label>
+            <div *ngIf="story_passed==null; then addSource else editSource"></div>
+            <ng-template #addSource>
+              <select formControlName="source_name">
+                <option *ngFor="let source of sources" [ngValue]="source">{{source.name}}</option>
+                </select>
+            </ng-template>
+            <ng-template #editSource>
+                <select formControlName='source_name'  [(ngModel)]="story_passed.source">
+                <option *ngFor="let source of sources" [ngValue]="source" [attr.selected]="story_passed.source == source.name">{{source.name}}</option>
+                </select>
+            </ng-template>
+            
+        </div> 
+        <div *ngIf="storyControl.source_name.touched && storyControl.source_name.invalid" class="errormsg">
+          <span *ngIf="storyControl.source_name.errors?.required" >!!Please select source</span>
+          </div>
+        <div class="form-group">
+            <label for="url">Story URL:</label>
+            <div *ngIf="story_passed==null; then addUrl else editUrl"></div>
+            <ng-template #addUrl><input type="url" class="form-control" formControlName="url" /></ng-template>
+            <ng-template #editUrl><input type="url" class="form-control" formControlName="url" [(ngModel)]="story_passed.url"/></ng-template>
+          </div>
+          <div *ngIf="storyControl.url.touched && storyControl.url.invalid" class="errormsg">
+            <div *ngIf="storyControl.url.errors?.required">!!Please provide url</div>
+            <div *ngIf="storyControl.url.errors?.pattern" >Please provide valid url</div>
+          </div>
+        <div class="form-group">
+            <label for="tagged_company">Tagged Companies:</label>
+            <div *ngIf="story_passed==null; then addCompanies else editCompanies"></div>
+            <ng-template #addCompanies>
+              <select formControlName="tagged_company" multiple  >
+                <option *ngFor="let company of companies" [ngValue]="company" >{{company.company_name}}</option>
+            </select>
+            </ng-template>
+            <ng-template  #editCompanies>
+              <select formControlName="tagged_company" multiple [(ngModel)]="story_passed.tagged_company[0]" >
+                <option *ngFor="let company of companies" [ngValue]="company">{{company.company_name}}</option>
+            </select>
+            </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" >
+      <div *ngIf="story_passed==null; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock><button class="btn btn-outline-success" type="submit" [disabled]="!myForm.valid">Add Story</button></ng-template>
+      <ng-template #elseBlock><button class="btn btn-outline-success" type="submit" >Edit Story</button></ng-template>
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+  </form>

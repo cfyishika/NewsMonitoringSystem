@@ -1,0 +1,18 @@
+Search: 
+<input type="text" [ngModel]="search_text" (ngModelChange)="searchingSources($event)">
+{{search_text}}
+<br>
+<div *ngIf="total_sources != null"><p>You have {{total_sources}} sources</p></div>
+<br><br>
+Add Source: <button (click)="AddSourceModal()">Add Source</button>
+<ol>
+    <li *ngFor="let source of sources">
+    <a href="{{source.url}}">{{source.name}}</a><br>
+    <a href='fetching/{{source.id}}' type="button" class="fetchBtn">Fetch</a>
+    <button (click)="openDeleteModal(source.id)" class="mx-3">Delete</button>
+    <button (click)="EditSourceModal(source)">Edit</button>
+    
+    
+    </li>
+</ol>
+
